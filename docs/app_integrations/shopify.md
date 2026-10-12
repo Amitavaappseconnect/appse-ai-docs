@@ -5657,6 +5657,55 @@ Click on **Continue**, then click **Run** node.
 ```
 -----------------
 
+#### Search Records by Metafield
+
+Search Records by Metafield action finds Shopify records whose metafield matches a given value, using the `metafields.<namespace>.<key>` search filter. Use it to look up a Shopify record by an identifier held in an external system — for example an ERP reference stored on a custom field.
+
+##### Configuration Fields
+
+| Field | Description |
+|------|-------------|
+| Record Type | The kind of Shopify record to search. Supported values: `Orders`, `Products`, `Companies`, `Company Locations`. (e.g., "Orders") |
+| Metafield Namespace | Namespace of the metafield definition. Custom fields created in the Shopify admin use `custom`; app-owned metafields use `$app`. (e.g., "custom") |
+| Metafield Key | Key of the metafield definition, without the namespace. Together with the namespace this builds the filter `metafields.custom.erp_reference_id`. (e.g., "erp_reference_id") |
+| Metafield Value | The exact value stored in the metafield. (e.g., "123456789") |
+| Limit | Maximum number of matching records to return, up to Shopify's connection maximum of 250. When looking up a single record by an external ID, set this to 1. (e.g., 1) |
+
+:::note
+The metafield definition must have the **Admin filterable** capability enabled on the same record type, otherwise Shopify ignores the filter and returns unfiltered records. Matching is exact and case-sensitive, so the value must match what is stored in Shopify exactly. Enter the value on its own — the action wraps it in the double quotes Shopify's filter syntax expects.
+:::
+
+Click on **Continue**, then click **Run** node.
+
+------------
+
+##### Result
+
+```json
+[
+  {
+    "id": "gid://shopify/Order/7240844705964",
+    "name": "#1768",
+    "createdAt": "2026-04-24T17:44:48Z",
+    "updatedAt": "2026-04-24T18:02:11Z",
+    "displayFinancialStatus": "PAID",
+    "displayFulfillmentStatus": "UNFULFILLED",
+    "customer": {
+      "id": "gid://shopify/Customer/9304242225324",
+      "displayName": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    "totalPriceSet": {
+      "shopMoney": {
+        "amount": "150.00",
+        "currencyCode": "USD"
+      }
+    }
+  }
+]
+```
+-----------------
+
 ### Payouts Actions
 
 #### Get Payout
@@ -5837,6 +5886,119 @@ Click on **Continue**, then click **Run** node.
         }
       }
     }
+  }
+]
+```
+-----------------
+
+### Returns Actions
+
+#### Process Return
+
+Process Return action processes an existing return in Shopify. Use it to confirm which returned items were received and which exchange items should be shipped, completing an exchange started with the **Create Return** action. Only the line items you map are processed — anything left unmapped is omitted from the request.
+
+##### Configuration Fields
+
+| Field | Description |
+|------|-------------|
+| Return ID | Unique identifier of the return to process. (e.g., "gid://shopify/Return/9628778560") |
+| Return Line Items (Optional)
+Return Line Item ID | Returned item being confirmed as received. Use the Return Line Item IDs from **Create Return**. (e.g., "gid://shopify/ReturnLineItem/13953695808") |
+| Quantity | Number of units to process. Cannot exceed the processable quantity on the return line item. (e.g., 1) |
+| Exchange Line Items (Optional)
+Exchange Line Item ID | Exchange item to release to the customer. Use the Exchange Line Item IDs from **Create Return**. (e.g., "gid://shopify/ExchangeLineItem/433291328") |
+| Quantity | Number of exchange units to process. Cannot exceed the processable quantity on the exchange line item. (e.g., 1) |
+| Financial Transfer (Optional)
+Issue Refund → Order Transactions → Parent Transaction ID | The original payment transaction to refund against. Must be of kind `CAPTURE` or `SALE` — use the **Get Transactions by Order ID** action to find it. (e.g., "gid://shopify/OrderTransaction/6039361192000") |
+| Issue Refund → Order Transactions → Transaction Amount → Amount | Decimal money amount to refund from this transaction. (e.g., "65.00") |
+| Issue Refund → Order Transactions → Transaction Amount → Currency Code | ISO 4217 currency code, matching the order's presentment currency. (e.g., "AUD") |
+| Issue Refund → Allow Over Refunding | Allows the refund to exceed the amount normally refundable for the returned items. (e.g., false) |
+| Notify Customer | Whether to send the customer a notification about the processed return. (e.g., false) |
+| Note | An internal note recorded against the return. (e.g., "Items received in good condition") |
+
+:::note
+**Financial Transfer** is optional. Leave it unmapped to process the return without any money movement, and refund separately if needed. When **Issue Refund** is mapped, at least one order transaction is required, and the transaction amount must be in the **presentment currency of the order** — not the shop currency. The total across all transactions cannot exceed the refundable amount unless **Allow Over Refunding** is enabled.
+:::
+
+Click on **Continue**, then click **Run** node.
+
+------------
+
+##### Result
+
+```json
+[
+  {
+    "return": {
+      "id": "gid://shopify/Return/9628778560",
+      "name": "#1768-R1",
+      "status": "CLOSED",
+      "totalQuantity": 2,
+      "order": {
+        "id": "gid://shopify/Order/7240844705964",
+        "name": "#1768"
+      },
+      "refunds": {
+        "nodes": [
+          {
+            "id": "gid://shopify/Refund/912345678901",
+            "createdAt": "2026-04-25T09:14:33Z",
+            "note": "Items received in good condition",
+            "totalRefundedSet": {
+              "shopMoney": {
+                "amount": "65.00",
+                "currencyCode": "USD"
+              },
+              "presentmentMoney": {
+                "amount": "65.00",
+                "currencyCode": "AUD"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "userErrors": []
+  }
+]
+```
+-----------------
+
+#### Close Return
+
+Close Return action closes an existing return in Shopify. Use it to finalise a return once every returned item has been processed, or to shut a return that will not be completed.
+
+##### Configuration Fields
+
+| Field | Description |
+|------|-------------|
+| Return ID | Unique identifier of the return to close. (e.g., "gid://shopify/Return/9628778560") |
+
+:::note
+A return can be closed at any point, whether or not its line items have been processed. Shopify also closes a return automatically once every item has been processed and given a disposition, so use this action when you need to close a return early — for example one the customer never shipped back. On success, `status` becomes `CLOSED` and `closedAt` carries the timestamp. A closed return can be reopened in Shopify if needed.
+:::
+
+Click on **Continue**, then click **Run** node.
+
+------------
+
+##### Result
+
+```json
+[
+  {
+    "return": {
+      "id": "gid://shopify/Return/9628778560",
+      "name": "#1768-R1",
+      "status": "CLOSED",
+      "closedAt": "2026-04-25T09:21:07Z",
+      "totalQuantity": 2,
+      "order": {
+        "id": "gid://shopify/Order/7240844705964",
+        "name": "#1768"
+      }
+    },
+    "userErrors": []
   }
 ]
 ```
