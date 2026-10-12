@@ -67,7 +67,9 @@ Create, download, and install an On-Prem Connector on a machine that can reach y
 
 With **Connect to one server (Direct)** selected, fill in the fields from the [Required Fields](#required-fields) table above.
 <img src="/img/credentials/sap-ecc-rfc/direct/direct-credential.png" alt="direct connection credential form" width="420"/>
+
 <img src="/img/credentials/sap-ecc-rfc/direct/direct-credential-fields.png" alt="direct connection client and user fields" width="420"/>
+
 <img src="/img/credentials/sap-ecc-rfc/direct/direct-credential-options.png" alt="direct connection language and pool options" width="420"/>
 
 ##### Step 4: Save and validate
@@ -131,8 +133,11 @@ Create, download, and install an On-Prem Connector on a machine that can reach y
 
 With **Load balance across servers (Message Server)** selected, fill in the fields from the [Required Fields](#required-fields-1) table above.
 <img src="/img/credentials/sap-ecc-rfc/load-balance/load-balanced-credential.png" alt="load balanced credential form" width="420"/>
+
 <img src="/img/credentials/sap-ecc-rfc/load-balance/load-balanced-credential-fields.png" alt="load balanced logon group and client fields" width="420"/>
+
 <img src="/img/credentials/sap-ecc-rfc/load-balance/load-balanced-credential-user.png" alt="load balanced user and password fields" width="420"/>
+
 <img src="/img/credentials/sap-ecc-rfc/load-balance/load-balanced-credential-options.png" alt="load balanced language and pool options" width="420"/>
 
 ##### Step 4: Save and validate
