@@ -16,7 +16,7 @@ slug: /app-integrations/netsuite/
 - **Procurement Automation** — Create purchase orders and vendor bills, receive against open purchase orders, and trigger workflows when new ones are created.
 - **Inventory Sync** — Create inventory items, adjust on-hand quantities, monitor items falling out of stock, and trigger workflows when items or their pricing are created or updated.
 - **Returns Management** — Create return authorizations (RMAs) linked back to the original sales order so pricing and items carry over.
-- **Ad Hoc Data Access** — Run SuiteQL searches against any NetSuite record type, or call a custom RESTlet directly.
+- **Ad Hoc Data Access** — Run SuiteQL searches against any NetSuite record type with custom fields, filters, and sorting.
 
 ---
 
@@ -157,8 +157,8 @@ Here is the list of available actions in NetSuite.
 
 | Action                          | Description                                                                     |
 | -------------------------------- | --------------------------------------------------------------------------------- |
-| **Create Customer**              | Creates a new customer record.                                                   |
-| **Update Customer**              | Updates fields on an existing customer.                                          |
+| **Create Customer**              | Creates a new customer record with entity status, subsidiary, sales rep, price level, terms, and an address book. |
+| **Update Customer**              | Updates the name, company name, email, phone, or inactive flag on an existing customer. |
 | **Get Customer by Email**        | Looks up a customer by email address.                                            |
 | **Get Customer by External ID**  | Looks up a customer by the external ID you set when creating it.                 |
 | **Get Full Customer (with address book and contacts)** | Fetches a complete customer by internal ID, including the address book, contact roles, currencies, terms, and credit limit. |
@@ -173,22 +173,22 @@ Here is the list of available actions in NetSuite.
 
 | Action                          | Description                                                                     |
 | -------------------------------- | --------------------------------------------------------------------------------- |
-| **Create Sales Order**           | Creates a new sales order for a customer, with line items and addresses.         |
-| **Update Sales Order**           | Updates the PO number, memo, or email on an existing sales order.                |
+| **Create Sales Order**           | Creates a new sales order for a customer, with line items (quantity, rate, amount, tax code) and shipping/billing addresses. |
+| **Update Sales Order**           | Updates an existing sales order by internal ID — header fields (PO number, external ID, memo, customer message, email, order/ship/start/end dates), terms, sales rep, payment method, department, class, location, shipping method and cost, discount, addresses, and line items (quantity, rate, price level, location, tax code, expected ship date, closed). |
 | **Get Sales Order by PO Number or External ID** | Looks up a sales order by its PO number (`otherrefnum`) or external ID.  |
 | **Get Full Sales Order (with line items and addresses)** | Fetches a complete sales order by internal ID, including line items, shipping/billing addresses, payment method, and shipping method. |
-| **Create Estimate (Quotation)**  | Creates a new estimate for a customer.                                           |
+| **Create Estimate (Quotation)**  | Creates a new estimate for a customer, with line items and tax codes.            |
 | **Get Full Estimate (with line items and addresses)** | Fetches a complete estimate by internal ID, including line items, addresses, and expected close date. |
-| **Create Item Fulfillment (Delivery)** | Fulfills (ships) an existing sales order, in full or by specific lines.    |
+| **Create Item Fulfillment (Delivery)** | Fulfills (ships) an existing sales order, in full or by specific lines, with ship status and fulfillment location. |
 | **Get Full Item Fulfillment (with packages and tracking)** | Fetches a complete item fulfillment by internal ID, including the package sublist with tracking numbers, ship-to address, and shipping carrier and method. |
 
 ### Billing & Payments
 
 | Action                          | Description                                                                     |
 | -------------------------------- | --------------------------------------------------------------------------------- |
-| **Create Invoice**               | Creates a new invoice, optionally billed against an existing sales order.        |
+| **Create Invoice**               | Creates a new invoice, optionally billed against an existing sales order, with subsidiary, location, tax codes, and serial/lot inventory detail. |
 | **Get Full Invoice (with line items and addresses)** | Fetches a complete invoice by internal ID, including line items, addresses, terms, and the sales order it was created from. |
-| **Create Credit Memo**           | Creates a new credit memo, optionally against an existing invoice.               |
+| **Create Credit Memo**           | Creates a new credit memo, optionally against an existing invoice, with posting period, subsidiary, location, and serial/lot inventory detail. |
 | **Get Full Credit Memo (with line items and addresses)** | Fetches a complete credit memo by internal ID, including line items, addresses, and the invoices it's applied to. |
 | **Create Customer Payment**      | Records a customer payment and optionally applies it to open invoices.           |
 | **Get Full Customer Payment (with applied invoices)** | Fetches a complete customer payment by internal ID, including the apply sublist showing which invoices it settles, plus payment method and account. |
@@ -197,17 +197,17 @@ Here is the list of available actions in NetSuite.
 
 | Action                          | Description                                                                     |
 | -------------------------------- | --------------------------------------------------------------------------------- |
-| **Create a Return Authorization (RMA)** | Creates a customer return authorization, optionally linked to the original sales order (Created From) so NetSuite carries over the customer, pricing, and item lines. |
+| **Create a Return Authorization (RMA)** | Creates a customer return authorization with custom form, subsidiary, currency, and status, optionally linked to the original sales order (Created From) so NetSuite carries over the customer, pricing, and item lines. |
 
 ### Procurement
 
 | Action                          | Description                                                                     |
 | -------------------------------- | --------------------------------------------------------------------------------- |
-| **Create Purchase Order**        | Creates a new purchase order for a vendor.                                       |
+| **Create Purchase Order**        | Creates a new purchase order for a vendor, with subsidiary, location, receive-by date, and per-line expected receipt dates. |
 | **Get Full Purchase Order (with line items and addresses)** | Fetches a complete purchase order by internal ID, including line items, ship-to address, vendor terms, and receipt status per line. |
-| **Create Vendor Bill**           | Creates a new vendor bill (AP invoice), optionally against an existing purchase order. |
+| **Create Vendor Bill**           | Creates a new vendor bill (AP invoice), optionally against an existing purchase order, with subsidiary, item lines, and expense lines (GL account, tax code, department, class, location). |
 | **Get Full Vendor Bill (with item and expense lines)** | Fetches a complete vendor bill by internal ID, including item lines, expense lines with GL accounts, terms, and due date. |
-| **Create Item Receipt (Purchase Delivery)** | Receives an existing purchase order, in full or by specific lines.    |
+| **Create Item Receipt (Purchase Delivery)** | Receives an existing purchase order, in full or by specific lines, with per-line location and an optional exchange rate. |
 | **Get Full Item Receipt (with line items)** | Fetches a complete item receipt by internal ID, including received item lines, the purchase order it receives against, and inventory detail. |
 | **Get Full Vendor Payment (with applied bills)** | Fetches a complete vendor payment by internal ID, including the apply sublist showing which vendor bills it settles, plus the paying account. |
 
@@ -215,10 +215,10 @@ Here is the list of available actions in NetSuite.
 
 | Action                          | Description                                                                     |
 | -------------------------------- | --------------------------------------------------------------------------------- |
-| **Create Inventory Item**        | Creates a new inventory item with its income, asset, and COGS accounts.          |
+| **Create Inventory Item**        | Creates a new inventory item with subsidiaries, income/asset/COGS and purchase price variance accounts, tax schedule, costing method, and purchase cost. |
 | **Get Item by SKU**              | Looks up an inventory item by SKU or item number.                                |
 | **Get Full Inventory Item (with pricing and locations)** | Fetches a complete inventory item by internal ID, including the price sublist for every price level/currency, per-location quantities and reorder points, and preferred vendors. |
-| **Adjust Inventory Quantity**    | Creates an inventory adjustment to change the on-hand quantity of one or more items at a location. Use a positive quantity to increase stock and a negative one to decrease it. |
+| **Adjust Inventory Quantity**    | Creates an inventory adjustment to change the on-hand quantity of one or more items at a location, including serial/lot, bin, and inventory status detail. Use a positive quantity to increase stock and a negative one to decrease it. |
 | **Get Out of Stock Items**       | Returns inventory and assembly items whose available quantity has fallen to or below a threshold you set — drives reorder, back-in-stock, or channel de-listing workflows. |
 
 ### Advanced
@@ -226,10 +226,9 @@ Here is the list of available actions in NetSuite.
 | Action                          | Description                                                                     |
 | -------------------------------- | --------------------------------------------------------------------------------- |
 | **Search Records**               | Runs an ad hoc SuiteQL search against any supported NetSuite record type (Customer, Vendor, Item, Transaction, and more) with custom select fields, filter, and sort. |
-| **Call a RESTlet**               | Calls a custom NetSuite RESTlet by script ID and deployment ID, sending a free-form JSON payload to run custom SuiteScript logic. |
 
 :::note
-**Search Records** and **Call a RESTlet** pass your input directly into the request without additional escaping — the RESTlet payload's shape is defined entirely by the target script. Restrict who can configure these actions to trusted workflow builders.
+**Search Records** passes your select fields, filter, and sort directly into the SuiteQL query without additional escaping. Restrict who can configure this action to trusted workflow builders.
 :::
 
 ---
