@@ -12,7 +12,9 @@ This is the node behind the **Hourly** and **Daily** digests on the [Notificatio
 
 It has a **single input channel** and a **single output channel**.
 
-> **Note:** This node requires no credentials. The organization, the services it reads from, and the email template are all resolved for you.
+:::note
+This node requires no credentials. The organization, the services it reads from, and the email template are all resolved for you.
+:::
 
 ---
 
@@ -113,7 +115,7 @@ To branch on whether anything failed, test the length of `errorSummary`, or read
 1. Add an **On schedule** trigger and set it to run every hour.
 2. Add an **Error Digest** node and choose **Hourly Digest Summary** (not the email one).
 3. Add a **Filter** node if you only care about certain workflows.
-4. Add your Slack or Teams node, and build the message as a normal workflow appnode.
+4. Add your Slack or Teams node, and build the message as a normal workflow app node.
 
 ---
 

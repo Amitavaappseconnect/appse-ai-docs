@@ -1,7 +1,7 @@
 ---
 slug: /platform/key-concepts/error-notifications
 title: Hourly and Daily Error Notifications
-position: 6
+sidebar_position: 7
 description: Turn on an hourly or daily email summarising every workflow failure across your organization.
 ---
 
@@ -32,7 +32,7 @@ That is the whole setup. Behind the scenes appse ai creates a small workflow tha
 | **Hourly** | Every hour, on the hour | The previous 60 minutes |
 | **Daily** | Every day at 08:00 UTC (*configurable*) | The previous 24 hours |
 
-The window always ends when the mail is prepared. The daily digest sent covers the last 24 hours, not the previous calendar day.
+The window always ends when the mail is prepared. The daily digest covers the last 24 hours, not the previous calendar day.
 
 ---
 ## What the email contains
@@ -62,7 +62,7 @@ Every workflow in your organization, except:
 - **deleted workflows**, and
 - **the digest workflows themselves**.
 
-There is no per-workflow opt-out today. To take a erroneous workflow out of the digest, delete it.
+There is no per-workflow opt-out today. To take an erroneous workflow out of the digest, delete it.
 
 ---
 
@@ -86,7 +86,9 @@ You can edit it like any other workflow. The common changes are:
 
 Your edits are kept. Switching a digest off and on again does **not** rebuild the workflow or discard your changes.
 
-> **Note:** Do not delete the schedule node or the Error Digest node. Without either one the digest stops and nothing tells you it has.
+:::note
+Do not delete the schedule node or the Error Digest node. Without either one the digest stops and nothing tells you it has.
+:::
 
 ---
 
