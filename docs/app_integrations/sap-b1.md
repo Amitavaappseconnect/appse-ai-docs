@@ -940,6 +940,9 @@ Use these links to open the matching action section directly in the Action tab:
 - [Serial Number Details Action](?sap-b1-section=actions#serial-number-details-action)
 - [Service Contracts Action](?sap-b1-section=actions#service-contracts-action)
 - [Customer Equipment Card Actions](?sap-b1-section=actions#customer-equipment-card-actions)
+- [Goods Receipt Actions](?sap-b1-section=actions#goods-receipt-actions)
+- [Goods Issue Actions](?sap-b1-section=actions#goods-issue-actions)
+- [Search Records Action](?sap-b1-section=actions#search-records-action)
 
 ----
 ### BusinessPartners Actions
@@ -5179,6 +5182,301 @@ Click on the **Continue** button, then **Run** node
         "BPCode": "ZC0001"
       }
     ]
+  }
+]
+```
+
+
+---------------------------------------
+
+
+### Goods Receipt Actions
+
+#### Create Goods Receipt
+
+**Create Goods Receipt** action posts a new goods receipt in SAP Business One to increase stock in a warehouse without a base document. It is commonly used to **record opening balances or found stock** and **sync stock movements from WMS, production, or external systems**.
+
+##### Select the Credential and Action Event
+
+Select your SAP Business One credential and choose **Create Goods Receipt** as the action event.
+
+Click on the **Continue** button.
+
+-------------
+
+##### Configuration Fields
+
+| Field | Description |
+|------|-------------|
+| Posting Date | Posting date of the goods receipt in yyyy-MM-dd format. Leave blank for today. (e.g., "2026-10-12") |
+| Reference | External reference number, such as a WMS or production document number. (e.g., "WMS-1001") |
+| Remarks | Additional notes for the goods receipt. (e.g., "Cycle count adjustment") |
+| Journal Remark | Remark posted to the journal entry, max 50 characters. (e.g., "Goods Receipt - WMS-1001") |
+| Document Lines (Required)
+Item Code | SAP B1 item code to receive. (e.g., "A00001") |
+| Quantity | Quantity to receive into the warehouse. Must be greater than 0. (e.g., "10") |
+| Warehouse Code | Warehouse the stock is received into. (e.g., "01") |
+| Optional Fields (Document Lines)
+Unit Price | Price per unit used to value the stock movement. (e.g., "25.50") |
+| Account Code | G/L offset account for the line. Overrides the default inventory offset account. (e.g., "_SYS00000000094") |
+| UoM Entry | Unit of measure entry. Leave blank to use the item default. (e.g., "1") |
+| Project Code | SAP B1 project code for the line. (e.g., "PRJ01") |
+| Distribution Rule | Distribution rule (cost center) for the line. (e.g., "CC01") |
+| Batch Numbers
+Batch Number | Batch number, required only for batch-managed items. (e.g., "B-2026-001") |
+| Quantity | Quantity for this batch. Total batch quantity must equal the line quantity. (e.g., "10") |
+| Serial Numbers
+Serial Number | Serial number, required only for serial-managed items. Add one entry per unit. (e.g., "SN-0001") |
+| Quantity | Always 1 per serial number. (e.g., "1") |
+
+:::note
+At least one document line with Item Code, Quantity, and Warehouse Code is required. Batch or serial allocation is mandatory for batch- or serial-managed items.
+:::
+
+Click on the **Continue** button, then **Run** the node.
+
+--------------
+
+##### Result
+
+```json
+[
+  {
+    "DocEntry": 12,
+    "DocNum": 12,
+    "DocDate": "2026-10-12",
+    "Reference2": "WMS-1001",
+    "Comments": "Cycle count adjustment",
+    "JournalMemo": "Goods Receipt - WMS-1001",
+    "DocumentStatus": "bost_Close",
+    "DocumentLines": [
+      {
+        "LineNum": 0,
+        "ItemCode": "A00001",
+        "ItemDescription": "IBM Infoprint 1312",
+        "Quantity": 10,
+        "WarehouseCode": "01",
+        "UnitPrice": 25.5,
+        "LineTotal": 255
+      }
+    ]
+  }
+]
+```
+
+--------------
+
+#### Update Goods Receipt
+
+**Update Goods Receipt** action modifies an existing goods receipt in SAP Business One using its DocEntry. SAP B1 only allows header fields to change after posting.
+
+:::note
+Quantities and document lines are locked once a goods receipt is posted. To correct stock, post a reversing document instead.
+:::
+
+##### Select the Credential and Action Event
+
+Select your SAP Business One credential and choose **Update Goods Receipt** as the action event.
+
+Click on the **Continue** button.
+
+-------------
+
+##### Configuration Fields
+
+| Field | Description |
+|------|-------------|
+| DocEntry | Unique document entry number of the goods receipt to update. (e.g., "12") |
+| Optional Fields
+Reference | External reference number. (e.g., "WMS-1001-R") |
+| Remarks | Additional notes for the goods receipt. (e.g., "Corrected reference") |
+| Journal Remark | Remark posted to the journal entry, max 50 characters. (e.g., "Goods Receipt - corrected") |
+
+:::note
+Only the fields provided will be updated. Ensure the correct DocEntry is used to avoid modifying the wrong document.
+:::
+
+Click on the **Continue** button, then **Run** the node.
+
+--------------
+
+##### Result
+
+```json
+[
+  {
+    "value": ""
+  }
+]
+```
+
+--------------
+
+### Goods Issue Actions
+
+#### Create Goods Issue
+
+**Create Goods Issue** action posts a new goods issue in SAP Business One to decrease stock in a warehouse without a base document. It is commonly used to **write off damaged, scrapped, or consumed stock** and **sync stock movements from WMS, production, or external systems**.
+
+##### Select the Credential and Action Event
+
+Select your SAP Business One credential and choose **Create Goods Issue** as the action event.
+
+Click on the **Continue** button.
+
+-------------
+
+##### Configuration Fields
+
+| Field | Description |
+|------|-------------|
+| Posting Date | Posting date of the goods issue in yyyy-MM-dd format. Leave blank for today. (e.g., "2026-10-12") |
+| Reference | External reference number, such as a WMS or production document number. (e.g., "WMS-1001") |
+| Remarks | Additional notes for the goods issue. (e.g., "Cycle count adjustment") |
+| Journal Remark | Remark posted to the journal entry, max 50 characters. (e.g., "Goods Issue - WMS-1001") |
+| Document Lines (Required)
+Item Code | SAP B1 item code to issue. (e.g., "A00001") |
+| Quantity | Quantity to issue from the warehouse. Must be greater than 0. (e.g., "10") |
+| Warehouse Code | Warehouse the stock is issued from. (e.g., "01") |
+| Optional Fields (Document Lines)
+Unit Price | Price per unit. Usually left blank so SAP B1 uses the item cost. (e.g., "25.50") |
+| Account Code | G/L offset account for the line. Overrides the default inventory offset account. (e.g., "_SYS00000000094") |
+| UoM Entry | Unit of measure entry. Leave blank to use the item default. (e.g., "1") |
+| Project Code | SAP B1 project code for the line. (e.g., "PRJ01") |
+| Distribution Rule | Distribution rule (cost center) for the line. (e.g., "CC01") |
+| Batch Numbers
+Batch Number | Batch number, required only for batch-managed items. (e.g., "B-2026-001") |
+| Quantity | Quantity for this batch. Total batch quantity must equal the line quantity. (e.g., "10") |
+| Serial Numbers
+Serial Number | Serial number, required only for serial-managed items. Add one entry per unit. (e.g., "SN-0001") |
+| Quantity | Always 1 per serial number. (e.g., "1") |
+
+:::note
+At least one document line with Item Code, Quantity, and Warehouse Code is required. Batch or serial allocation is mandatory for batch- or serial-managed items.
+:::
+
+Click on the **Continue** button, then **Run** the node.
+
+--------------
+
+##### Result
+
+```json
+[
+  {
+    "DocEntry": 12,
+    "DocNum": 12,
+    "DocDate": "2026-10-12",
+    "Reference2": "WMS-1001",
+    "Comments": "Cycle count adjustment",
+    "JournalMemo": "Goods Issue - WMS-1001",
+    "DocumentStatus": "bost_Close",
+    "DocumentLines": [
+      {
+        "LineNum": 0,
+        "ItemCode": "A00001",
+        "ItemDescription": "IBM Infoprint 1312",
+        "Quantity": 10,
+        "WarehouseCode": "01",
+        "UnitPrice": 25.5,
+        "LineTotal": 255
+      }
+    ]
+  }
+]
+```
+
+--------------
+
+#### Update Goods Issue
+
+**Update Goods Issue** action modifies an existing goods issue in SAP Business One using its DocEntry. SAP B1 only allows header fields to change after posting.
+
+:::note
+Quantities and document lines are locked once a goods issue is posted. To correct stock, post a reversing document instead.
+:::
+
+##### Select the Credential and Action Event
+
+Select your SAP Business One credential and choose **Update Goods Issue** as the action event.
+
+Click on the **Continue** button.
+
+-------------
+
+##### Configuration Fields
+
+| Field | Description |
+|------|-------------|
+| DocEntry | Unique document entry number of the goods issue to update. (e.g., "12") |
+| Optional Fields
+Reference | External reference number. (e.g., "WMS-1001-R") |
+| Remarks | Additional notes for the goods issue. (e.g., "Corrected reference") |
+| Journal Remark | Remark posted to the journal entry, max 50 characters. (e.g., "Goods Issue - corrected") |
+
+:::note
+Only the fields provided will be updated. Ensure the correct DocEntry is used to avoid modifying the wrong document.
+:::
+
+Click on the **Continue** button, then **Run** the node.
+
+--------------
+
+##### Result
+
+```json
+[
+  {
+    "value": ""
+  }
+]
+```
+
+--------------
+
+### Search Records Action
+
+#### Search Records
+
+**Search Records** action retrieves a list of records from any supported SAP Business One object with dynamic filtering, record limits, and field selection. Each record is returned as a separate item for downstream steps.
+
+This action is commonly used to **look up records by custom criteria**, **poll for recent changes**, and **fetch only the fields a workflow needs**.
+
+##### Select the Credential and Action Event
+
+Select your SAP Business One credential and choose **Search Records** as the action event.
+
+Click on the **Continue** button.
+
+-------------
+
+##### Configuration Fields
+
+| Field | Description |
+|------|-------------|
+| Object Name | SAP B1 object to search. Includes Business Partners, Items, Orders, Invoices, Purchase Orders, **Goods Receipt**, **Goods Issue**, and more. (e.g., "Goods Receipt") |
+| Filter Value | OData `$filter` expression, without the `$filter=` prefix. (e.g., "DocDate ge '2026-10-01'") |
+| Limit of records | Maximum number of records to return. (e.g., "20") |
+| Optional Fields
+Select fields to fetch | Comma-separated fields to return. (e.g., "DocEntry, DocNum, DocDate, Comments") |
+
+:::tip
+Select **Goods Receipt** or **Goods Issue** as the Object Name to search inventory stock movements, for example all goods issues posted since the start of the month.
+:::
+
+Click on the **Continue** button, then **Run** the node.
+
+--------------
+
+##### Result
+
+```json
+[
+  {
+    "DocEntry": 12,
+    "DocNum": 12,
+    "DocDate": "2026-10-12",
+    "Comments": "Cycle count adjustment"
   }
 ]
 ```
