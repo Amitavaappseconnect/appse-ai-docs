@@ -70,7 +70,7 @@ For the window just passed, grouped by workflow:
 - each **node** inside it that failed, and how many errors it had
 - the **error messages** themselves, so you can usually tell what went wrong without opening anything
 
-**If nothing failed, no email is sent.** A quiet inbox means a quiet platform.
+**If nothing failed, no email is sent.** A quiet inbox means your business processes ran without interruption.
 
 ---
 
