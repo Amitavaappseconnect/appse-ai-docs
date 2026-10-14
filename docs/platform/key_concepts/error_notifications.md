@@ -1,7 +1,7 @@
 ---
 slug: /platform/key-concepts/error-notifications
 title: Hourly and Daily Error Notifications
-sidebar_position: 7
+sidebar_position: 8
 description: Turn on an hourly or daily email summarising every workflow failure across your organization.
 ---
 

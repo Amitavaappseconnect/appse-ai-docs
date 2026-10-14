@@ -1,7 +1,7 @@
 ---
 slug: /platform/key-concepts/nodes/trigger/webhook
 title: On Webhook Trigger
-position: 4
+sidebar_position: 4
 dscription: Launches a workflow when an external system sends an HTTP request to a specific URL.
 ---
 
