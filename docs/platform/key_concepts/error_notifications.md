@@ -35,6 +35,33 @@ That is the whole setup. Behind the scenes appse ai creates a small workflow tha
 The window always ends when the mail is prepared. The daily digest covers the last 24 hours, not the previous calendar day.
 
 ---
+
+## The workflow behind the digest
+
+The digest is not a hidden, hardcoded mailer. It is an ordinary workflow, and once a digest is on you will see it in your workflow list with a link to it from the Notifications page.
+
+<img src="/img/platform/error-notifications/digest-workflows.png" alt="Hourly and Daily failure digest workflows in the workflow list" width="700" style={{border: '1px solid #d0d7de'}}/>
+
+Open it and you will find three nodes:
+
+1. **On schedule** — when the digest runs.
+2. **Error Digest** — fetches the summary and sends the mail. See the [Error Digest node](/platform/key-concepts/nodes/built-in/error-digest).
+3. A **note** reminding you which nodes not to delete.
+
+You can edit it like any other workflow. The common changes are:
+
+- **Change when it runs** — open the schedule node and set a different time.
+- **Change who receives it** — open the Error Digest node and edit **Send To**, a comma-separated list.
+- **Send it somewhere else** — switch the Error Digest node to the operation *without* email and add a Slack, Teams or HTTP node after it.
+
+Your edits are kept. Switching a digest off and on again does **not** rebuild the workflow or discard your changes.
+
+:::note
+Do not delete the schedule node or the Error Digest node. Without either one the digest stops and nothing tells you it has.
+:::
+
+---
+
 ## What the email contains
 
 For the window just passed, grouped by workflow:
@@ -63,32 +90,6 @@ Every workflow in your organization, except:
 - **the digest workflows themselves**.
 
 There is no per-workflow opt-out today. To take an erroneous workflow out of the digest, delete it.
-
----
-
-## The workflow behind the digest
-
-The digest is not a hidden, hardcoded mailer. It is an ordinary workflow, and once a digest is on you will see it in your workflow list with a link to it from the Notifications page.
-
-<img src="/img/platform/error-notifications/digest-workflows.png" alt="Hourly and Daily failure digest workflows in the workflow list" width="700" style={{border: '1px solid #d0d7de'}}/>
-
-Open it and you will find three nodes:
-
-1. **On schedule** — when the digest runs.
-2. **Error Digest** — fetches the summary and sends the mail. See the [Error Digest node](/platform/key-concepts/nodes/built-in/error-digest).
-3. A **note** reminding you which nodes not to delete.
-
-You can edit it like any other workflow. The common changes are:
-
-- **Change when it runs** — open the schedule node and set a different time.
-- **Change who receives it** — open the Error Digest node and edit **Send To**, a comma-separated list.
-- **Send it somewhere else** — switch the Error Digest node to the operation *without* email and add a Slack, Teams or HTTP node after it.
-
-Your edits are kept. Switching a digest off and on again does **not** rebuild the workflow or discard your changes.
-
-:::note
-Do not delete the schedule node or the Error Digest node. Without either one the digest stops and nothing tells you it has.
-:::
 
 ---
 

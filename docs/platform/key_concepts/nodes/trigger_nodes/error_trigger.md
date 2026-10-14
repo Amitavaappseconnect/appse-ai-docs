@@ -144,10 +144,6 @@ The node outputs a single item. Use it in downstream nodes with expressions, for
 | `failedItems[].prevInputs[]` | The matching input from each earlier node, so you can trace a failed record back to where it came from. |
 | `truncated`, `omittedItems`, `prevInputsTruncated` | Set when a very large failure was capped. The counts above always reflect the real totals. |
 
-:::note
-Values that look like passwords, tokens or keys are replaced with `[redacted]` before the payload reaches your workflow.
-:::
-
 :::warning Personal data
 The payload includes the failed record (`actualData`) and the inputs from earlier nodes (`prevInputs`), so it can contain personal data such as customer names and email addresses. Only credentials are redacted. If you forward the payload to Slack, Teams, a ticketing system or email, handle it under your data-protection rules (for example GDPR or DPDP), and send only the fields you need.
 :::
@@ -161,6 +157,7 @@ The payload includes the failed record (`actualData`) and the inputs from earlie
 - **Error workflows do not chain.** If your error workflow itself fails, no further error workflow is started, so a loop cannot form.
 - **Deleting an error workflow is not blocked.** Any workflow still pointing at it simply stops having an error workflow, and nothing is sent on its next failure.
 - **Manual test runs count.** Failing a protected workflow from the designer triggers the error workflow just like a live run does.
+- **The sample output payload is generic.** The detailed error message path varies by node. The detailed error message may display in a different field inside the `error` object depending on the node and the source system that failed. When mapping the detailed message in downstream nodes, make sure you use the exact path of field as per the node used.
 - If a workflow has no error workflow linked, nothing is sent on failure. That is the default — this feature never sends anything on its own.
 
 ---

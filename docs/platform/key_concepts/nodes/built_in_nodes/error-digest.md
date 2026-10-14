@@ -8,7 +8,7 @@ description: Summarises your organization's workflow failures for the last hour 
 
 The **Error Digest** node collects every workflow failure in your organization over a fixed window — the last hour or the last 24 hours — and gives you one summary of what broke. It can email that summary for you, or hand it to the rest of your workflow so you can send it wherever you like.
 
-This is the node behind the **Hourly** and **Daily** digests on the [Notifications](/platform/key-concepts/error-notifications) page. Those digests are ordinary workflows built around this node, which is why you can open one and change it.
+This is the node behind the **Hourly** and **Daily** digests on the [Notifications](/platform/key-concepts/error-notifications) page. Those digests are ordinary workflows built around this Error Digest node. You can open those workflows and edit them as per your business need.
 
 It has a **single input channel** and a **single output channel**.
 
@@ -33,7 +33,11 @@ The node has the two following configuration fields:
 
 The two options **with Email** send the digest for you, using the standard appse ai digest email template. The other two only produce the summary as node output, so you can route it somewhere else — a Slack node, a Teams message, a ticketing system, or a Filter node that only forwards certain workflows.
 
-The window always ends at the moment the node runs. A Daily digest that runs at 08:00 covers the previous 24 hours, not the previous calendar day.
+Each digest looks back from the moment the node runs, for the length of the window — **1 hour** for Hourly, **24 hours** for Daily. It is a rolling window, not a fixed calendar period.
+
+**Example:** 
+- A Daily digest that runs at 08:00 UTC on 9 October covers failures from **08:00 UTC on 8 October to 08:00 UTC on 9 October**. It does *not* cover "8 October" as a calendar day (00:00–23:59). 
+- Similarly, an Hourly digest that runs at 14:00 UTC covers **13:00–14:00 UTC**.
 
 ### 2. Send To
 
@@ -124,7 +128,7 @@ To branch on whether anything failed, test the length of `errorSummary`, or read
 - The window is measured in **UTC**.
 - The digest covers the whole organization. There is no per-workflow opt-out today — delete a workflow to take it out of the digest.
 - The node runs **once per execution**, not once per input record, so the schedule drives it rather than the data.
-- The two **with Email** operations will stop the workflow with an error if the **Send To** field is empty or contains an address that cannot be delivered to. This is checked as soon as the node runs, not only on days that had failures.
+- The two **with Email** operations will execute the workflow with an error if the **Send To** field contains an address that cannot be delivered to.
 
 ---
 
