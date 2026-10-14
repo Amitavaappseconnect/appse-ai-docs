@@ -20,7 +20,7 @@ This node requires no credentials. The organization, the services it reads from,
 
 ## Configuration
 
-The node has the two following configuration fields:
+The node has two configuration fields:
 
 ### 1. Operation
 
@@ -126,7 +126,7 @@ To branch on whether anything failed, test the length of `errorSummary`, or read
 ## Limitations / Notes
 
 - The window is measured in **UTC**.
-- The digest covers the whole organization. There is no per-workflow opt-out today — delete a workflow to take it out of the digest.
+- The digest covers the whole organization. There is no per-workflow opt-out — delete a workflow to take it out of the digest.
 - The node runs **once per execution**, not once per input record, so the schedule drives it rather than the data.
 - The two **with Email** operations will execute the workflow with an error if the **Send To** field contains an address that cannot be delivered to.
 

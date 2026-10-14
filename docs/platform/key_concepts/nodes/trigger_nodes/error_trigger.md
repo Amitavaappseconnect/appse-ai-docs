@@ -136,6 +136,7 @@ The node outputs a single item. Use it in downstream nodes with expressions, for
 | `execution.failedItemCount` | How many individual records failed across all nodes. |
 | `workflow.id`, `workflow.name` | The workflow that failed — not the error workflow. |
 | `failedNodes[]` | One entry per failed node, in the order they ran. |
+| `failedNodes[].nodeId`, `nodeName`, `nodeType` | The id, name and type of the failed node. |
 | `failedNodes[].status` | `failed` if the node threw, `partial` if it only rejected records. |
 | `failedNodes[].totalRecords`, `successRecords`, `failedRecords` | Record counts for that node in that run. |
 | `failedNodes[].failedItems[]` | The individual records that failed, each with its own error. |

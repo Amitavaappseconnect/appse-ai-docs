@@ -70,7 +70,7 @@ For the window just passed, grouped by workflow:
 - each **node** inside it that failed, and how many errors it had
 - the **error messages** themselves, so you can usually tell what went wrong without opening anything
 
-**If nothing failed, no email is sent.** A quiet inbox means your business processes ran without interruption.
+**If nothing failed, no email is sent.**
 
 ---
 
@@ -89,7 +89,7 @@ Every workflow in your organization, except:
 - **deleted workflows**, and
 - **the digest workflows themselves**.
 
-There is no per-workflow opt-out today. To take an erroneous workflow out of the digest, delete it.
+There is no per-workflow opt-out. To take an erroneous workflow out of the digest, delete it.
 
 ---
 
