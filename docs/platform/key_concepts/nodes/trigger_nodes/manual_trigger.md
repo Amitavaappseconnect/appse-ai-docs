@@ -1,28 +1,28 @@
 ---
 slug: /platform/key-concepts/nodes/trigger/manual
 title: Manual Trigger 
-position: 1
+sidebar_position: 1
 description: Allows a workflow to be started on demand by a user interaction.
 ---
 
 # Trigger Manually
 
-The **Trigger Manually** node allows users to initiate a workflow manually from within the APPSe AI workflow designer. It is primarily used for testing and debugging workflows without needing an external event or schedule to start execution.
+The **Trigger Manually** node allows users to initiate a workflow manually from within the appse ai workflow designer. It is primarily used for testing and debugging workflows without needing an external event or schedule to start execution.
 
 This is a trigger node and therefore has **no input channels**. It has a **single output channel** that passes either the user-provided JSON payload or an empty dataset to subsequent nodes.
 
 ## Configuration
 
-<img src="\img\platform\platform-tour\workflow-designer\action-nodes\manual-trigger\manual-trigger-configuration-screen.png" alt="APPSe AI Manual Trigger Configuration" width="700"/>
+<img src="\img\platform\platform-tour\workflow-designer\action-nodes\manual-trigger\manual-trigger-configuration-screen.png" alt="appse ai Manual Trigger Configuration" width="700"/>
 The configuration screen does not have mandatory fields.
 
 - **Custom JSON payload (Optional):** Users can define sample data in JSON format that will be sent to subsequent nodes whenever the node is triggered.
 
-<img src="\img\platform\platform-tour\workflow-designer\action-nodes\manual-trigger\manual-trigger-mock-data.png" alt="APPSe AI Manual Trigger Mock data" width="700"/>
+<img src="\img\platform\platform-tour\workflow-designer\action-nodes\manual-trigger\manual-trigger-mock-data.png" alt="appse ai Manual Trigger Mock data" width="700"/>
 
 - **Output:** The output will be showcased and will be used as an input for the next node.
 
-<img src="\img\platform\platform-tour\workflow-designer\action-nodes\manual-trigger\manual-trigger-output.png" alt="APPSe AI Manual Trigger Output" width="700"/>
+<img src="\img\platform\platform-tour\workflow-designer\action-nodes\manual-trigger\manual-trigger-output.png" alt="appse ai Manual Trigger Output" width="700"/>
 
 - If mock data is omitted, the node will output an empty dataset when executed.
 
@@ -38,7 +38,7 @@ Here's how the outputs will be showcased:
 
 - If **mock data** is not configured, the output will be an **empty dataset** with a confirmation that the node was triggered successfully along with a timestamp.
 
-<img src="\img\platform\platform-tour\workflow-designer\action-nodes\manual-trigger\manual-trigger-empty-output.png" alt="APPSe AI Manual Trigger Empty Output" width="700"/>
+<img src="\img\platform\platform-tour\workflow-designer\action-nodes\manual-trigger\manual-trigger-empty-output.png" alt="appse ai Manual Trigger Empty Output" width="700"/>
 
 ---
 

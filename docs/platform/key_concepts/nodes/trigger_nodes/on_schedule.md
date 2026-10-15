@@ -1,7 +1,7 @@
 ---
 slug: /platform/key-concepts/nodes/trigger/on-schedule
 title: On Schedule Trigger
-position: 3
+sidebar_position: 3
 description: Initiates a workflow at a predefined time or recurring interval.
 ---
 # On Schedule Trigger

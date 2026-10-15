@@ -1,7 +1,7 @@
 ---
 slug: /platform/key-concepts/nodes/trigger/app-trigger
 title: App Trigger
-position: 2
+sidebar_position: 2
 description: Starts a workflow based on an event occurring within a specified application.
 ---
 # App Trigger
