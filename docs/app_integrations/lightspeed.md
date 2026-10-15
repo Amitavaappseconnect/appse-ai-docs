@@ -157,6 +157,7 @@ Here is the list of available actions in Lightspeed:
 | **List Customer Addresses** | Retrieves all billing and shipping addresses held against a customer, including the **Address ID** required by **Update Customer Address**. |
 | **Update Customer Address** | Updates an existing address by customer ID and address ID. The full address must be supplied, as the address is replaced rather than merged. |
 | **Create Sale** | Creates a sale with one or more line items. Requires the author (cashier) and a state — `closed`, `pending` or `parked`. Each line item requires a product, quantity, unit price and tax. |
+| **Get Sale by ID** | Retrieves a single sale by its sale ID, including its customer, outlet, register and user references, line items, payments, pricing totals, state, invoice number, timestamps and any note. |
 | **Update Sale** | Updates an existing sale by sale ID. The author (cashier) and sale state must be supplied on every update. Supplying a line item or payment with an existing ID updates that entry instead of creating a new one. |
 | **Create Return** | Initiates a return against an existing closed sale. Creates a new return sale in the `parked` state with the original line items negated and no payments, linked back to the original sale. Multiple and partial returns are supported. |
 | **Fulfill Sale** | Completes every fulfillment on a sale in a single call, marking all its items as fulfilled. Fulfillments are created automatically when a sale carries a delivery or pickup attribute. The call is idempotent and safe to retry. |
