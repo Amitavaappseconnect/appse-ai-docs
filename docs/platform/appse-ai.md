@@ -21,21 +21,18 @@ appse ai is a next-generation AI automation platform designed to simplify and st
 
 The result of adopting appse ai is a fundamental shift in how your business operates. appse ai delivers tangible ROI by slashing process times, minimizing costly errors, and freeing your valuable human talent to focus on innovation and strategy. This advantage is built on a foundation of powerful, enterprise-grade intelligence. appse ai learns and adapts to your unique business environment, ensuring that your automations are not only efficient but also intelligent. We empower you to do more with less, transforming complex operational challenges into a seamless, competitive advantage.
 
-<div style={{ textAlign: 'center', margin: 'em 0' }}>
-  <a
+<div style={{ textAlign: 'left', margin: 'em 0' }}>
+  <a class="button button--primary"
     href="https://workflow.appse.ai/"
     style={{
-      display: 'inline-block',
-      width: '234.462px',
-      height: '46.15px',
-      lineHeight: '18px',
-      padding: '12px 12px',
-      backgroundColor: '#3395FF',
+      display: 'inline-block',     
+      padding: '8px 12px',
+      backgroundColor: '#4c5aff',
       color: 'white',
       borderRadius: '8px',
       fontWeight: 'bold',
       textDecoration: 'none',
-      fontSize: '19px'
+      fontSize: '16px'
     }}
   >
     Try appse ai!

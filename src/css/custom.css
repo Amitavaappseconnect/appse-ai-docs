@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
 /**
  * Any CSS included here will be global. The classic template
  * bundles Infima by default. Infima is a CSS framework designed to
@@ -6,7 +8,10 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #3395ff;
+  --ifm-font-family-base: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ifm-heading-font-family: var(--ifm-font-family-base);
+  --ifm-heading-color: #111827;
+  --ifm-color-primary: #4c5aff;
   --ifm-color-primary-dark: #1f2937;
   --ifm-color-primary-darker: #374151;
   --ifm-color-primary-darkest: #1f2937;
@@ -14,6 +19,10 @@
   --ifm-color-primary-lighter: #f3f4f6;
   --ifm-color-primary-lightest: #f9fafb;
   --ifm-code-font-size: 95%;
+  --ifm-font-weight-normal: 400;     /* body text */
+  --ifm-font-weight-semibold: 600;
+  --ifm-font-weight-bold: 700;
+  --ifm-heading-font-weight: 600;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
@@ -57,4 +66,508 @@
 .theme-code-block pre[class*="language-json"]::-webkit-scrollbar-track,
 .markdown pre[class*="language-json"]::-webkit-scrollbar-track {
   background: transparent;
+}
+
+.markdown h1,
+.markdown h1:first-child {
+ font-size: 1.6rem;
+ color: var(--ifm-heading-color);
+ font-weight: var(--ifm-font-weight-semibold);
+
+}
+
+.markdown h2,
+.markdown h3 {
+  font-size: 1.4rem;
+  color: var(--ifm-heading-color);
+  font-weight: var(--ifm-font-weight-semibold);
+}
+
+/* Category index pages (e.g. "Workflow"): the h1 sits outside .markdown */
+.theme-doc-breadcrumbs + header h1 {
+  margin-top: 8px;
+  margin-bottom: 12px;
+  font-size: 1.8rem;
+  color: var(--ifm-heading-color);
+  font-weight: var(--ifm-font-weight-semibold);
+}
+
+.theme-doc-breadcrumbs {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  background-color: #f9fafb;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.breadcrumbs__link,
+.breadcrumbs__item--active .breadcrumbs__link {
+  background: transparent;
+  font-weight: 600;
+}
+
+.breadcrumbs__link:hover {
+  background: transparent;
+}
+
+.table-of-contents {
+    background-color: #f9fafb;
+    border-radius: 5px;
+    padding: 0.5rem;
+    border: #ccc solid 1px;
+}
+
+/* Remove the default padding around the doc container; pad only the body content.
+   Infima's padding utilities are !important inside @layer docusaurus.infima, and
+   layered !important beats unlayered !important, so the override must live in that layer. */
+@layer docusaurus.infima {
+  [class*="docMainContainer"] > .container {
+    padding: 1rem 0 0 !important;
+  }
+}
+
+.theme-doc-markdown {
+  padding: 1rem 1.5rem 2rem;
+}
+
+/* Container padding is gone, so drop the row's negative margins (they caused horizontal scroll) */
+[class*="docMainContainer"] > .container > .row {
+  margin-left: 0;
+  margin-right: 0;
+  /* Keep the TOC column beside the content; wrapping dropped it below wide pages */
+  flex-wrap: nowrap;
+}
+
+/* Let the content column shrink instead of forcing the TOC onto a new line */
+[class*="docMainContainer"] > .container > .row > [class*="docItemCol"] {
+  min-width: 0;
+}
+
+/* Extra gap between the body column and the right-hand TOC column */
+[class*="docMainContainer"] > .container > .row > .col--3 {
+  margin-left: 2rem;
+}
+
+/* Keep the sticky TOC aligned with the breadcrumb (both sit 1rem below the navbar) */
+.col .theme-doc-toc-desktop {
+  top: calc(var(--ifm-navbar-height) + 1rem);
+  height: calc(100vh - var(--ifm-navbar-height) - 2rem);
+  max-height: calc(100vh - var(--ifm-navbar-height) - 2rem);
+}
+
+/* Stretch the TOC box to the full height of its sticky wrapper (screen height) */
+.col .theme-doc-toc-desktop > .table-of-contents {
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+/* Buttons: brand color, left-aligned, 5px / 10px padding */
+.button {
+  text-align: left;
+  padding: 5px 10px !important;
+  line-height: 1.5;
+}
+
+/* Safety net: MDX can wrap button text in a <p>, whose bottom margin inflates the button */
+a p {
+  margin: 0 !important;
+}
+
+.button--primary {
+  --ifm-button-background-color: #4c5aff;
+  --ifm-button-border-color: #4c5aff;
+  --ifm-button-color: #fff;
+  background-color: #4c5aff;
+  border-color: #4c5aff;
+  color: #fff;
+  padding: 10px 20px !important;
+}
+
+.button--primary:hover {
+  background-color: #3f4bd9;
+  border-color: #3f4bd9;
+  color: #fff;
+}
+
+/* Prev/Next pagination: no border, label + title on one line, more space above */
+.pagination-nav {
+  padding-top: 0rem;
+  padding-bottom: 2rem;
+}
+
+.pagination-nav__link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  border: none;
+  padding: 0.5rem 0;
+}
+
+.pagination-nav__link--next {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.pagination-nav__link--prev {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.pagination-nav__sublabel {
+  margin-bottom: 0;
+}
+
+/* Category index pages (e.g. "Key Concepts"): same side padding as doc pages.
+   Breadcrumb and prev/next footer stay flush with the column edge, like on doc pages. */
+[class*="generatedIndexPage"] > :not(.theme-doc-breadcrumbs) {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* Category index pages sit outside .row/.col, so they miss the 1rem column margin that
+   doc pages get. Add it so the breadcrumb is inset from the sidebar like on doc pages. */
+[class*="generatedIndexPage"] {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+/* Category cards: compact, flat, bordered.
+   Padding/margin utilities are !important inside @layer docusaurus.infima, so those
+   overrides have to live in the same layer. */
+@layer docusaurus.infima {
+  .card[class*="cardContainer"] {
+    padding: 0.75rem 1rem !important;
+  }
+
+  [class*="generatedIndexPage"] article .margin-bottom--lg {
+    margin-bottom: 0.75rem !important;
+  }
+}
+
+.card[class*="cardContainer"] {
+  box-shadow: none;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.card[class*="cardContainer"]:hover {
+  box-shadow: none;
+  border-color: #4c5aff;
+}
+
+.card[class*="cardContainer"] h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.card[class*="cardContainer"] p {
+  font-size: 0.85rem;
+  margin: 0;
+  /* Indent past the emoji icon so the text lines up with the title text.
+     The icon is plain text inside the <h2>, so this is an approximation of its width. */
+  padding-left: 1.65rem;
+}
+
+/* Doc pages: prev/next lines up with the body content (category pages get this from the
+   generatedIndexPage rule above, since their pagination lives inside <footer>). */
+[class*="docItemContainer"] > .pagination-nav {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* Heading spacing: 12px below h1, 8px below h2/h3 (first-child h1 is also overridden by Infima, so list it) */
+.markdown h1,
+.markdown h1:first-child {
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.markdown h2,
+.markdown h3 {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+/* Horizontal rules on every page */
+:root {
+  --ifm-hr-background-color: #e5e7eb;
+}
+
+hr {
+  background-color: #e5e7eb;
+  border-color: #e5e7eb;
+}
+
+/* Side-by-side tables (e.g. Merge Node "Input 1" / "Input 2"): equal columns, full-width tables */
+.markdown div[style*="display: flex"] > div {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.markdown div[style*="display: flex"] table {
+  display: table;
+  width: 100%;
+}
+
+/* Lists: Infima only sets a bottom margin, so a list directly after an image has no gap above it.
+   Mirror the bottom margin on top (nested lists already get this from Infima). */
+.markdown > ol,
+.markdown > ul {
+  margin-top: var(--ifm-list-margin);
+}
+
+/* Lists: no left indent; markers sit inside the box so they stay flush with the body text */
+.markdown ol,
+.markdown ul {
+  padding-left: 0;
+  list-style-position: inside;
+}
+
+.markdown h4 {
+  margin-top: 12px !important;
+  margin-bottom: 6px !important;
+}
+
+/* ==========================================================================
+   Docs UI refresh: navbar, sidebar, TOC and body, following the reference mockup.
+   Placed last so it overrides the earlier, equal-specificity rules above.
+   ========================================================================== */
+
+/* ---- Top bar ---- */
+.navbar {
+  box-shadow: none;
+  border-bottom: 1px solid #e5e7eb;
+  /* The nav links are navbar-height tall, so Infima's vertical padding pushed everything
+     else (logo, title, theme toggle) ~0.5rem below the centre line. */
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.navbar__title {
+  font-weight: 700;
+}
+
+.navbar__item.navbar__link {
+  display: flex;
+  align-items: center;
+  height: var(--ifm-navbar-height);
+  margin: 0 0.5rem;
+  /* 3px top padding balances the 3px underline so the label stays on the centre line */
+  padding: 3px 0.25rem 0;
+  border-radius: 0;
+  border-bottom: 3px solid transparent;
+  box-sizing: border-box;
+  font-weight: 500;
+  color: #374151;
+}
+
+.navbar__item.navbar__link:hover {
+  color: #4c5aff;
+  background: transparent;
+}
+
+.navbar__item.navbar__link--active {
+  color: #4c5aff;
+  border-bottom-color: #4c5aff;
+}
+
+/* Round theme-toggle button */
+.navbar [class*="colorModeToggle"] {
+  display: flex;
+  align-items: center;
+}
+
+.navbar [class*="toggleButton"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: 50%;
+  background: #f3f4f6;
+}
+
+/* ---- Left sidebar ---- */
+.theme-doc-sidebar-container {
+  border-right: 1px solid #e5e7eb !important;
+}
+
+.menu__link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px 0 0 4px;
+}
+
+.menu__link:hover {
+  background: #eef2ff;
+  color: #4c5aff;
+}
+
+.menu__link--active:not(.menu__link--sublist) {
+  background: #eef2ff;
+  color: #4c5aff;
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 #4c5aff;
+}
+
+/* ---- Right sidebar (table of contents) ---- */
+.table-of-contents {
+  background-color: #fafbff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.table-of-contents::before {
+  content: "On this page";
+  display: block;
+  margin-bottom: 0.75rem;
+  padding: 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ifm-heading-color);
+}
+
+.table-of-contents li {
+  margin: 0.125rem 0;
+}
+
+.table-of-contents__link {
+  display: block;
+  padding: 0.25rem 0.75rem;
+  border-left: 3px solid transparent;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.table-of-contents__link:hover {
+  color: #4c5aff;
+}
+
+.table-of-contents__link--active {
+  border-radius: 4px 0 0 4px;
+  border-left-color: #4c5aff;
+  color: #4c5aff;
+  font-weight: 600;
+}
+
+/* ---- Body ---- */
+.theme-doc-breadcrumbs {
+  background-color: transparent;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.breadcrumbs__link,
+.breadcrumbs__item--active .breadcrumbs__link {
+  padding: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #6b7280;
+  background: transparent;
+}
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  color: #4c5aff;
+}
+
+.markdown {
+  line-height: 1.7;
+}
+
+.markdown img.medium-zoom-image {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+/* ---- Dark mode counterparts ---- */
+[data-theme="dark"] .navbar,
+[data-theme="dark"] .theme-doc-sidebar-container {
+  border-color: #374151 !important;
+}
+
+[data-theme="dark"] .navbar__item.navbar__link,
+[data-theme="dark"] .menu__link,
+[data-theme="dark"] .table-of-contents__link,
+[data-theme="dark"] .breadcrumbs__link {
+  color: #d1d5db;
+}
+
+[data-theme="dark"] .breadcrumbs__item--active .breadcrumbs__link {
+  color: #a5b4fc;
+}
+
+[data-theme="dark"] .menu__link:hover {
+  background: rgba(76, 90, 255, 0.18);
+  color: #a5b4fc;
+}
+
+[data-theme="dark"] .menu__link--active:not(.menu__link--sublist) {
+  background: rgba(76, 90, 255, 0.18);
+  color: #a5b4fc;
+}
+
+[data-theme="dark"] .table-of-contents {
+  background-color: #111827;
+  border-color: #374151;
+}
+
+[data-theme="dark"] .table-of-contents__link--active {
+  color: #a5b4fc;
+  border-left-color: #a5b4fc;
+}
+
+[data-theme="dark"] .markdown img.medium-zoom-image {
+  border-color: #374151;
+}
+
+[data-theme="dark"] .navbar [class*="toggleButton"] {
+  background: #1f2937;
+}
+
+/* Left sidebar background (matches the TOC card tint) */
+.theme-doc-sidebar-container {
+  background-color: #fafbff;
+}
+
+[data-theme="dark"] .theme-doc-sidebar-container {
+  background-color: #111827;
+}
+
+/* Slimmer sidebar chevrons: swap Infima's filled arrow for a thin stroked one.
+   Same orientation as Infima's icon (pointing up), so its rotate rules still work. */
+:root {
+  --ifm-menu-link-sublist-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="rgb(107,114,128)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.5l4.5-4.5 4.5 4.5"/></svg>');
+}
+
+[data-theme="dark"] {
+  --ifm-menu-link-sublist-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="rgb(209,213,219)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.5l4.5-4.5 4.5 4.5"/></svg>');
+}
+
+/* Sidebar hover background. Collapsible categories (Key Concepts, Workflow, ...) take their
+   hover/active background from Infima variables, not from .menu__link, so set those too. */
+:root {
+  --ifm-menu-color-background-hover: #eef2ff;
+  --ifm-menu-color-background-active: #eef2ff;
+}
+
+[data-theme="dark"] {
+  --ifm-menu-color-background-hover: rgba(76, 90, 255, 0.18);
+  --ifm-menu-color-background-active: rgba(76, 90, 255, 0.18);
+}
+
+.menu__list-item-collapsible {
+  border-radius: 4px 0 0 4px;
+}
+
+.menu__list-item-collapsible:hover {
+  background: #eef2ff;
+}
+
+[data-theme="dark"] .menu__list-item-collapsible:hover {
+  background: rgba(76, 90, 255, 0.18);
 }
