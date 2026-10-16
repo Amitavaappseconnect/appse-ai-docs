@@ -8,28 +8,29 @@ type FeatureItem = {
   Svg?: React.ComponentType<React.ComponentProps<"svg">>;
   img?: string; // Optional for image path
   description: ReactNode;
+  href?: string; // Optional: renders an "Explore" button under the description
 };
 
 const FeatureList: FeatureItem[] = [
   {
     title: "Explore the Platform",
     img: "/img/homepage/explore-the-platform.png",
+    href: "/platform/what-is-appse-ai",
     description: (
       <>
         Browse key features like credential management, processflows, execution
-        history, and AI agents, everything built to simplify integration.{' '}
-        <a href="/platform/what-is-appse-ai">Explore</a>
+        history, and AI agents, everything built to simplify integration.
       </>
     ),
   },
   {
     title: "Integrate Applications",
     img: "/img/homepage/integrate-applications.png",
+    href: "/app-integrations",
     description: (
       <>
         Connect your favorite apps in minutes. Sync data effortlessly across
-        platforms with zero-code integrations and enterprise-grade reliability.{' '}
-        <a href="/app-integrations">Explore</a>
+        platforms with zero-code integrations and enterprise-grade reliability.
       </>
     ),
   },
@@ -45,26 +46,35 @@ const FeatureList: FeatureItem[] = [
 },
 ];
 
-function Feature({ title, Svg, img, description }: FeatureItem) {
+function Feature({ title, Svg, img, description, href }: FeatureItem) {
   return (
-    <div className={clsx("col col--4")}>
-      <div className="text--center">
-        {img ? (
-          <img
-            src={img}
-            alt={title}
-            width={120}
-            height={80}
-            className={styles.featureSvg}
-            style={{ display: "block", margin: "0 auto 1rem" }}
-          />
-        ) : Svg ? (
-          <Svg className={styles.featureSvg} role="img" />
-        ) : null}
-      </div>
-      <div className="text--center padding-horiz--md">
-        <Heading as="h3">{title}</Heading>
-        <p>{description}</p>
+    <div className={clsx("col col--4", styles.featureCol)}>
+      <div className={styles.featureCard}>
+        <div className="text--center">
+          {img ? (
+            <img
+              src={img}
+              alt={title}
+              width={120}
+              height={120}
+              className={styles.featureSvg}
+              style={{ display: "block", margin: "0 auto 1rem" }}
+            />
+          ) : Svg ? (
+            <Svg className={styles.featureSvg} role="img" />
+          ) : null}
+        </div>
+        <div className={clsx("text--center padding-horiz--md", styles.featureBody)}>
+          <Heading as="h3">{title}</Heading>
+          <p>{description}</p>
+        </div>
+        {href && (
+          <div className={styles.featureAction}>
+            <a className="button button--primary" href={href}>
+              Explore
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

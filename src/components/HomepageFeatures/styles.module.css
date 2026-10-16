@@ -1,11 +1,40 @@
 .features {
   display: flex;
   align-items: center;
-  padding: 2rem 0;
+  padding: 3rem 0;
   width: 100%;
 }
 
+/* Equal-height cards: the column stretches, the card fills it */
+.featureCol {
+  display: flex;
+}
+
+.featureCard {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.5rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+[data-theme="dark"] .featureCard {
+  border-color: #374151;
+}
+
 .featureSvg {
-  height: 200px;
-  width: 200px;
+  height: 120px;
+  width: 120px;
+  object-fit: contain;
+}
+
+/* Description takes the spare height so the Explore buttons line up at the bottom of each card */
+.featureBody {
+  flex: 1;
+}
+
+.featureAction {
+  margin-top: 1rem;
+  text-align: center;
 }

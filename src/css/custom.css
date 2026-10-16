@@ -28,10 +28,12 @@
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme="dark"] {
+  --ifm-heading-color: #ffffff;
   --ifm-color-primary: #3395ff;
   --ifm-color-primary-dark: #f3f4f6;
   --ifm-color-primary-darker: #f3f4f6;
   --ifm-color-primary-darkest: #f9fafb;
+  --ifm-navbar-background-color: #0b0d21;
   --ifm-color-primary-light: #1f2937;
   --ifm-color-primary-lighter: #374151;
   --ifm-color-primary-lightest: #1f2937;
@@ -398,7 +400,7 @@ hr {
   font-size: 0.875rem;
   font-weight: 500;
   color: #4b5563;
-  padding: 0.5rem 0.75rem;
+  padding: 12px;
   border-radius: 4px 0 0 4px;
 }
 
@@ -512,7 +514,7 @@ hr {
 }
 
 [data-theme="dark"] .table-of-contents {
-  background-color: #111827;
+  background-color: #0b0d21;
   border-color: #374151;
 }
 
@@ -541,11 +543,11 @@ hr {
 /* Slimmer sidebar chevrons: swap Infima's filled arrow for a thin stroked one.
    Same orientation as Infima's icon (pointing up), so its rotate rules still work. */
 :root {
-  --ifm-menu-link-sublist-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="rgb(107,114,128)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.5l4.5-4.5 4.5 4.5"/></svg>');
+  --ifm-menu-link-sublist-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="rgb(156,163,175)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" d="M8.5 13.5l3.5-3.5 3.5 3.5"/></svg>');
 }
 
 [data-theme="dark"] {
-  --ifm-menu-link-sublist-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="rgb(209,213,219)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.5l4.5-4.5 4.5 4.5"/></svg>');
+  --ifm-menu-link-sublist-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="rgb(156,163,175)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" d="M8.5 13.5l3.5-3.5 3.5 3.5"/></svg>');
 }
 
 /* Sidebar hover background. Collapsible categories (Key Concepts, Workflow, ...) take their
@@ -570,4 +572,127 @@ hr {
 
 [data-theme="dark"] .menu__list-item-collapsible:hover {
   background: rgba(76, 90, 255, 0.18);
+}
+
+/* Top bar: keep the logo where it is, but start the two menus (Platform, App Integrations)
+   at the same x as the body content. Body text starts at: sidebar width + 1rem (column margin)
+   + 1.5rem (body padding). The navbar already has 1rem side padding and each link has
+   0.5rem margin + 0.25rem padding, so the brand block fills the rest. Desktop only: the
+   sidebar is hidden below 997px. */
+@media (min-width: 997px) {
+  /* The grey brand block is a compact fixed width that wraps logo + title (11.5rem); the rest
+     of the sidebar-width gap is added as right margin so the menus still line up with the body. */
+  .navbar__brand {
+    flex-shrink: 0;
+    width: 11.5rem;
+    margin-right: calc(var(--doc-sidebar-width) + 0.75rem - 11.5rem);
+  }
+}
+
+/* TOC scrollbar inside the card: the card (ul) scrolls, not its sticky wrapper, so the
+   scrollbar sits within the border and rounded corners instead of outside them. */
+.col .theme-doc-toc-desktop {
+  overflow: hidden;
+}
+
+.col .theme-doc-toc-desktop > .table-of-contents {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+.col .theme-doc-toc-desktop > .table-of-contents::-webkit-scrollbar {
+  width: 6px;
+}
+
+.col .theme-doc-toc-desktop > .table-of-contents::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 999px;
+}
+
+.col .theme-doc-toc-desktop > .table-of-contents::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-theme="dark"] .col .theme-doc-toc-desktop > .table-of-contents {
+  scrollbar-color: #4b5563 transparent;
+}
+
+[data-theme="dark"] .col .theme-doc-toc-desktop > .table-of-contents::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+/* Left sidebar scrollbar: same thin light-grey style as the TOC card */
+.theme-doc-sidebar-container .menu,
+.theme-doc-sidebar-container .thin-scrollbar,
+.theme-doc-sidebar-container [class*="sidebarViewport"] {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+.theme-doc-sidebar-container .menu::-webkit-scrollbar,
+.theme-doc-sidebar-container .thin-scrollbar::-webkit-scrollbar,
+.theme-doc-sidebar-container [class*="sidebarViewport"]::-webkit-scrollbar {
+  width: 6px;
+}
+
+.theme-doc-sidebar-container .menu::-webkit-scrollbar-thumb,
+.theme-doc-sidebar-container .thin-scrollbar::-webkit-scrollbar-thumb,
+.theme-doc-sidebar-container [class*="sidebarViewport"]::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 999px;
+}
+
+.theme-doc-sidebar-container .menu::-webkit-scrollbar-track,
+.theme-doc-sidebar-container .thin-scrollbar::-webkit-scrollbar-track,
+.theme-doc-sidebar-container [class*="sidebarViewport"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-theme="dark"] .theme-doc-sidebar-container .menu,
+[data-theme="dark"] .theme-doc-sidebar-container .thin-scrollbar,
+[data-theme="dark"] .theme-doc-sidebar-container [class*="sidebarViewport"] {
+  scrollbar-color: #4b5563 transparent;
+}
+
+[data-theme="dark"] .theme-doc-sidebar-container .menu::-webkit-scrollbar-thumb,
+[data-theme="dark"] .theme-doc-sidebar-container .thin-scrollbar::-webkit-scrollbar-thumb,
+[data-theme="dark"] .theme-doc-sidebar-container [class*="sidebarViewport"]::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+
+/* Footer: brand color, tighter vertical padding */
+.footer--dark {
+  --ifm-footer-background-color: #4c5aff;
+}
+
+.footer {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* Dark mode page/body background (same value as the dark navbar) */
+[data-theme="dark"] {
+  --ifm-background-color: #0b0d21;
+}
+
+/* Homepage hero: white text on the brand-blue banner */
+.hero--primary {
+  --ifm-hero-text-color: #fff;
+}
+
+.hero__title,
+.hero__subtitle {
+  color: #fff;
+}
+
+/* Homepage hero: tighter gap between title and subtitle */
+.hero__title {
+  margin-bottom: 0.25rem;
+}
+
+.hero__subtitle {
+  margin-top: 0;
 }
